@@ -4,6 +4,7 @@ import SelectField from 'material-ui/SelectField/SelectField';
 import MenuItem from 'material-ui/MenuItem/MenuItem';
 import axios from 'axios';
 import ImageResults from '../image-results/ImageResults';
+import './Search.css';
 
 const API_KEY = require('../../config/keys').pixaBayAPI;
 
@@ -15,14 +16,21 @@ class Search extends Component {
     }
 
     onTextChange = (e) => {
+        const val = e.target.value;
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.name]: val
         }, () => {
-            axios.get(`https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=${API_KEY}&q=${this.state.searchText}&image_type=photo&per_page=${this.state.amount}&safesearch=true`)
-                .then(res => this.setState({
-                    images: res.data.hits
-                }))
-                .catch(err => console.log(err));
+            if(val === '') {
+                this.setState({
+                    images: []
+                });
+            } else {
+                axios.get(`https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=${API_KEY}&q=${this.state.searchText}&image_type=photo&per_page=${this.state.amount}&safesearch=true`)
+                    .then(res => this.setState({
+                        images: res.data.hits
+                    }))
+                    .catch(err => console.log(err));
+            }
         });
     };
 
@@ -35,7 +43,7 @@ class Search extends Component {
     render() {
         console.log(this.state.images);
         return (
-            <div>
+            <div className="input_fields">
                 <TextField 
                     name="searchText"
                     value={this.state.searchText}
