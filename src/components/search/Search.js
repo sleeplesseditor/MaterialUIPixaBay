@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField/TextField';
 import SelectField from 'material-ui/SelectField/SelectField';
 import MenuItem from 'material-ui/MenuItem/MenuItem';
 import axios from 'axios';
+import ImageResults from '../image-results/ImageResults';
 
 const API_KEY = require('../../config/keys').pixaBayAPI;
 
@@ -56,6 +57,7 @@ class Search extends Component {
                     <MenuItem value={50} primaryText="50" />
                 </SelectField>
                 <br />
+                {this.state.images.length > 0 ? (<ImageResults images={this.state.images} />) : null}
             </div>
         )
     }
