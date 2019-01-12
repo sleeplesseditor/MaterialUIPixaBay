@@ -10,8 +10,6 @@ class Search extends Component {
     state = {
         searchText: '',
         amount: 15,
-        apiUrl: 'https://pixabay.com/api',
-        apiKey: `${API_KEY}`,
         images: []
     }
 
@@ -19,11 +17,17 @@ class Search extends Component {
         this.setState({
             [e.target.name]: e.target.value
         }, () => {
-            axios.get(`${this.state.apiUrl}/key=${this.state.apiKey}&q=${this.state.searchText}&image_type=photo&per_page=${this.state.amount}&safesearch=true`)
+            axios.get(`https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=${API_KEY}&q=${this.state.searchText}&image_type=photo&per_page=${this.state.amount}&safesearch=true`)
                 .then(res => this.setState({
                     images: res.data.hits
                 }))
                 .catch(err => console.log(err));
+        });
+    };
+
+    onAmountChange = (e, index, value) => {
+        this.setState({
+            amount: value
         });
     }
 
